@@ -7,20 +7,26 @@
   background-position: center;
   color: #fff;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 2rem;
+  text-align: center;
 }
 
-.faq-text {
-  text-align: center;
-  max-width: 800px;
+.faq-heading {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #fff; /* Ensures heading stands out against the background */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Adds clarity over background */
 }
-.faq-text h1 {
-  font-size: 60px;
-  font-weight: 600;
-}
-.faq-text p {
-  max-width: 700px;
-  margin: 10px auto 20px;
-  line-height: 1.4;
+
+@media (max-width: 768px) {
+  .faq {
+    padding: 1rem;
+  }
+
+  .faq-heading {
+    font-size: 1.75rem;
+  }
 }

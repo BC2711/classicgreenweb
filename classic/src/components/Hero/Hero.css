@@ -1,27 +1,100 @@
-.hero {
+.hero-section {
+  position: relative;
   width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(rgba(8, 0, 58, 0.7), rgba(8, 0, 58, 0.7)),
-    url("../../assets/hero.jpg");
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.hero-text{
-    text-align: center;
-    max-width: 800px;
-}
-.hero-text h1{
-    font-size: 60px;
-    font-weight: 600;
-}
-.hero-text p{
-    max-width: 700px;
-    margin: 10px auto 20px;
-    line-height: 1.4;
+  height: 80vh;
+  overflow: hidden;
 }
 
+.hero-carousel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: opacity 1s ease-in-out;
+}
+
+.hero-title, .hero-description {
+  position: absolute;
+  color: white;
+  font-size: 2rem;
+  z-index: 10;
+}
+
+.hero-title {
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hero-description {
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  text-align: center;
+  width: 80%;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 2rem;
+  transform: translateY(-50%);
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+.slide-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 100%;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.indicator.active {
+  background-color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  .hero-description {
+    font-size: 1rem;
+  }
+}

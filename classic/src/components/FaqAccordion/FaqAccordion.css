@@ -1,0 +1,55 @@
+.accordion {
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  
+  .accordion-item {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .accordion-header {
+    background-color: #f7f7f7;
+    padding: 10px;
+  }
+  
+  .accordion-button {
+    background-color: #f7f7f7;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .accordion-button:hover {
+    background-color: #e5e5e5;
+  }
+  
+  .accordion-button.open {
+    background-color: #ddd; /* When open, change background color */
+  }
+  
+  .accordion-collapse {
+    display: none;
+    transition: max-height 0.4s ease-out;
+    max-height: 0;
+  }
+  
+  .accordion-collapse.show {
+    display: block;
+    max-height: 1000px; /* A value large enough to show the content */
+  }
+  
+  .accordion-body {
+    padding: 15px;
+    /* background-color: #ddd; */
+    font-size: 1rem;
+  }
+  .accordion-body p{
+    text-align: left;
+    color: green;
+  }
+  

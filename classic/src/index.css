@@ -31,8 +31,20 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin: 2px;
 }
 .btn img{
   width: 20px;
   margin-left: 10px;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .btn {
+    padding: 14px 22px;
+    font-size: 14px;
+  }
 }

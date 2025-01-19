@@ -5,7 +5,7 @@ import Features from "./components/Features/Features"
 import Footer from "./components/Footer/Footer"
 import Hero from "./components/Hero/Hero"
 import Navbar from "./components/Navbar/Navbar"
-import Portifolio from "./components/Portfolio/Portifolio"
+import Portfolio from "./components/Portfolio/Portfolio"
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
       <Navbar />
       <Hero />
       <Features />
-      <Portifolio />
+      <Portfolio />
       <Faq />
       <About />
       <Contact />
