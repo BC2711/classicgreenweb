@@ -90,11 +90,32 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
   .hero-title {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
   .hero-description {
-    font-size: 1rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .hero-title {
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
+  .hero-description {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .hero-description {
+    font-size: 10px;
   }
 }
