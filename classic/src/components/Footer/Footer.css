@@ -29,3 +29,14 @@
 .footer ul li:hover {
   color: #fff;
 }
+
+@media (max-width: 600px) {
+  .footer {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+  }
+  .footer ul li{
+    margin: 3px;
+  }
+}
