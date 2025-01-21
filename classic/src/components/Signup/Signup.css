@@ -1,0 +1,166 @@
+/* Signup Form Styles */
+.signup-form {
+  width: 90%;
+  /* max-width: 1000px; */
+  min-height: 100vh;
+  justify-content: center;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Category Selection */
+.category-selection {
+  margin-bottom: 20px;
+}
+
+.category-selection .account {
+  width: 30%;
+  margin-left: 35%;
+}
+
+.category-selection select {
+  width: 30%;
+  margin-left: 35%;
+  justify-content: center;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* General Form Styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.grid-terms {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Optional, to give some space between the checkbox and label */
+}
+
+.grid-terms input[type="checkbox"] {
+  width: 2%;
+  margin: 0;
+}
+
+.grid-terms label {
+  margin: 0;
+  /* Remove extra space around label */
+  cursor: pointer;
+  /* Optional: change cursor to indicate clickable */
+}
+
+.input-wrapper {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="file"] {
+  padding: 5px;
+}
+
+/* Terms & Conditions */
+.terms {
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 20px;
+}
+
+/* 
+.terms label {
+  display: inline-flexbox;
+  font-size: 14px;
+} */
+
+.terms input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.error,
+.success {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  color: #fff;
+}
+
+.error {
+  background-color: #dc3545;
+}
+
+.success {
+  background-color: #28a745;
+}
+
+/* Submit Button */
+.form-actions {
+  margin-top: 20px;
+  text-align: center;
+  width: 10%;
+  margin-left: 45%;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

@@ -8,7 +8,7 @@ const About = ({setVideoPlay}) => {
             <div className="about-left">
                 <Portfoliocard point={card6} className='about-img' />
                 {/* <img src={card6} alt="play" className='about-img' /> */}
-                <img src={play} alt="play" className='about-play' onClick={() => setVideoPlay(true)} />
+                <img src={play} alt="play" className='about-play' onClick={() => {setVideoPlay(true)}} />
             </div>
             <div className="about-right">
                 <h3>About <span>Classic</span>green</h3>

@@ -1,9 +1,11 @@
 import './Navbar.css';
 import logo from '../../assets/logoclassic.jpg';
 import { useEffect, useState } from 'react';
-import { Link, animateScroll as scroll, scrollSpy } from 'react-scroll';
+import { Link as ScrollLink, animateScroll as scroll, scrollSpy } from 'react-scroll';
 import menu from '../../assets/menu.png';
-
+import Signup from '../Signup/Signup';
+import { Link } from 'react-router-dom';
+import Hero from '../Hero/Hero';
 const Navbar = () => {
     const [sticky, setSticky] = useState(false);
     const [mobile, setMobile] = useState(false);
@@ -26,79 +28,80 @@ const Navbar = () => {
             <img src={logo} alt="classicgreen" className='logo' />
             <ul className={`${mobile ? '' : 'hide-menu'}`}>
                 <li>
-                    <Link 
-                        to='hero' 
-                        smooth={true} 
-                        offset={0} 
-                        duration={500} 
-                        activeClass="active"
-                        spy={true}
+                    <Link
+                        to='/'
+                        element={<Hero />}
+                    // smooth={true}
+                    // offset={0}
+                    // duration={500}
+                    // activeClass="active"
+                    // spy={true}
                     >
                         Home
                     </Link>
                 </li>
                 <li>
-                    <Link 
-                        to='features' 
-                        smooth={true} 
-                        offset={-70} 
-                        duration={500} 
+                    <ScrollLink
+                        to='features'
+                        smooth={true}
+                        offset={-70}
+                        duration={500}
                         activeClass="active"
                         spy={true}
                     >
                         Features
-                    </Link>
+                    </ScrollLink>
                 </li>
                 <li>
-                    <Link 
-                        to='portfolio' 
-                        smooth={true} 
-                        offset={-80} 
-                        duration={500} 
+                    <ScrollLink
+                        to='portfolio'
+                        smooth={true}
+                        offset={-80}
+                        duration={500}
                         activeClass="active"
                         spy={true}
                     >
                         Portfolio
-                    </Link>
+                    </ScrollLink>
                 </li>
                 <li>
-                    <Link 
-                        to='faq' 
-                        smooth={true} 
-                        offset={0} 
-                        duration={500} 
+                    <ScrollLink
+                        to='faq'
+                        smooth={true}
+                        offset={0}
+                        duration={500}
                         activeClass="active"
                         spy={true}
                     >
                         FAQ
-                    </Link>
+                    </ScrollLink>
                 </li>
                 <li>
-                    <Link 
-                        to='about' 
-                        smooth={true} 
-                        offset={0} 
-                        duration={500} 
+                    <ScrollLink
+                        to='about'
+                        smooth={true}
+                        offset={0}
+                        duration={500}
                         activeClass="active"
                         spy={true}
                     >
                         About
-                    </Link>
+                    </ScrollLink>
                 </li>
                 <li>
-                    <Link 
-                        to='contact' 
-                        smooth={true} 
-                        offset={-250} 
-                        duration={500} 
+                    <ScrollLink
+                        to='contact'
+                        smooth={true}
+                        offset={-250}
+                        duration={500}
                         activeClass="active"
                         spy={true}
                     >
                         Contact
-                    </Link>
+                    </ScrollLink>
                 </li>
                 <li>
-                    <button className='btn'>Signup</button>
+                    <Link className='btn' to="/signup" element={<Signup />}>Signup</Link>
                 </li>
             </ul>
             <img

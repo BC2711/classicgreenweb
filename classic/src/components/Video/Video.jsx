@@ -1,11 +1,33 @@
-import './Video.css'
+import './Video.css';
 import video from '../../assets/sia.mp4';
-const Video = ({ videoPlay, setVideoPlay }) => {
-    return (
-        <div className={`video ${videoPlay ? '' : 'hide'}`}>
-            <video src={video} autoPlay muted controls></video>
-        </div>
-    )
-}
+import PropTypes from 'prop-types';
 
-export default Video
+const Video = ({ videoPlay, setVideoPlay }) => {
+    const closePlayer = (e) => {
+        if (e.target === e.currentTarget) {
+            setVideoPlay(false);
+            const videoElement = e.currentTarget.querySelector('video');
+            if (videoElement) {
+                videoElement.pause();
+            }
+        }
+    };
+
+    return (
+        <>
+            {videoPlay && (
+                <div className="video" onClick={closePlayer}>
+                    <video src={video} autoPlay muted controls></video>
+                </div>
+            )}
+        </>
+    );
+};
+
+// Define the prop types
+Video.propTypes = {
+    videoPlay: PropTypes.bool.isRequired,
+    setVideoPlay: PropTypes.func.isRequired,
+};
+
+export default Video;
