@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Signup.css';
 import { getData, postData } from '../../services/Api';
-import PropTypes from 'prop-types';
+import axios from 'axios';
+
 
 const Signup = () => {
     const [data, setData] = useState({
@@ -15,9 +16,31 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [inputs, setInputs] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
+
+    const [inputs, setInputs] = useState({
+        corporate_name: "",
+        corporate_number: "",
+        business_name: "",
+
+        ministry: "",
+        sector: "",
+        province: "",
+        district: '',
+        project_name: '',
+        first_name: '',
+        last_name: '',
+        contact_number: '',
+        email: '',
+        communication_numbers: '',
+        communication_emails: '',
+        physical_address: '',
+        postal_address: '',
+        city: '',
+        bank_id: '',
+        account_number: ''
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,92 +65,68 @@ const Signup = () => {
         fetchData();
     }, []);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setInputs((prevInputs) => ({
-            ...prevInputs,  // Spread the previous state
-            [name]: value, // Update only the specific input
-        }));
-    };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setInputs((prev) => ({
-                ...prev,
-                [e.target.name]: file,
-            }));
-        }
+    const handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setInputs(({ ...inputs, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!termsAccepted) {
-            setError('You must accept the terms.');
+            setError('Please accept the terms and conditions.');
             return;
         }
 
-        const formData = new FormData();
-        Object.keys(inputs).forEach(key => {
-            formData.append(key, inputs[key]);
-        });
-        formData.append('category', selectedCategory);
+        // if (!validateForm()) {
+        //     return; // Stop if validation fails
+        // }
+
         try {
             setLoading(true);
-            const response = await postData(formData, selectedCategory);
-            if (response && response.status === 200) {
-                setSuccess('Registration successful!');
-                setError('');
+            const response = await postData(inputs, selectedCategory);
+            // Handle success here (show a success message or do something else)
+            if (response.success) {
+                setSuccess('Form submitted successfully!');
+                // setInputs({
+                //     corporate_name: "",
+                //     corporate_number: "",
+                //     business_name: "",
+                //     ministry: "",
+                //     sector: "",
+                //     province: "",
+                //     district: '',
+                //     project_name: '',
+                //     first_name: '',
+                //     last_name: '',
+                //     contact_number: '',
+                //     email: '',
+                //     communication_numbers: '',
+                //     communication_emails: '',
+                //     physical_address: '',
+                //     postal_address: '',
+                //     city: '',
+                //     bank_id: '',
+                //     account_number: ''
+                // });
             } else {
-                throw new Error('Unexpected server response.');
+                setError('Form submission failed. Please try again.');
             }
-        } catch (err) {
-            setError('Error occurred during registration. Please try again.');
-            setSuccess('');
-            console.error('Error:', err);
+        } catch (error) {
+            setError(
+                error.response?.data?.message ||
+                'Failed to submit form. Please try again.'
+            );
+            console.error('Submission Error:', error);
         } finally {
             setLoading(false);
         }
     };
 
-    // Create the input field JSX
-    const InputField = React.memo(({ name, label, type, required }) => (
-        <div className="input-wrapper">
-            <label>{label}{required && '*'}</label>
-            <input
-                type={type}
-                name={name}
-                value={inputs[name] || ''} // Controlled input
-                onChange={handleChange}
-                required={required}
-            />
-        </div>
-    ));
 
-    const InputTextArea = ({ name, label, required }) => (
-        <div className="input-wrapper">
-            <label>{label}{required && '*'}</label>
-            <textarea
-                name={name}
-                value={inputs[name] || ''}
-                onChange={handleChange}
-                required={required}
-            />
-        </div>
-    );
 
-    // Create file input JSX
-    const FileInput = ({ name, label }) => (
-        <div className="input-wrapper">
-            <label>{label}</label>
-            <input
-                type="file"
-                name={name}
-                onChange={handleFileChange}
-            />
-        </div>
-    );
 
 
 
@@ -137,50 +136,115 @@ const Signup = () => {
                 return (
                     <div className="form-group">
                         <div className="grid">
-                            <InputField type="text" name="corporate_name" label="Company Registration Name" required />
-                            <InputField type="text" name="corporate_number" label="Company Registration Number" required />
-                            <InputField type="text" name="business_name" label="Trading as/ Business Name" required />
-                            <InputField type="text" name="first_name" label="Primary Contact First Name *" required />
-                            <InputField type="text" name="last_name" label="Primary Contact Last Name *" required />
-                            <InputField type="number" name="contact_number" label="Contact Number *" required />
-                            <InputField type="email" name="email" label="Contact Email *" required />
-                            <InputTextArea name="communication_numbers" label="Communication Phone Numbers * Separate By comma (,)" />
-                            <InputTextArea name="communication_emails" label="Communication Emails * Separate By comma (,)" />
-                            <InputTextArea name="physical_address" label="Physical Address *" />
-                            <InputTextArea name="postal_address" label="Postal Address *" />
-                            <InputField type="text" name="city" label="City*" required />
+
                             <div className="input-wrapper">
-                                <label>Main Bank</label>
-                                <select name="bank_id" onChange={handleChange}>
-                                    <option value="">Select Bank</option>
-                                    {data.banks.map((bank) => (
-                                        <option key={bank.bank_id} value={bank.bank_id}>{bank.bank_name}</option>
-                                    ))}
-                                </select>
+                                <label>Company Registration Name *</label>
+                                <input
+                                    type="text"
+                                    name="corporate_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
                             </div>
-                            <InputField type="number" name="account_number" label="Bank Account Number*" required />
-                            <FileInput name="file_1" label="Attachment File 1" />
-                            <FileInput name="file_2" label="Attachment File 2" />
-                            <FileInput name="file_3" label="Attachment File 3" />
-                        </div>
-                    </div>
-                );
-            case 'NGO':
-                return (
-                    <div className="form-group">
-                        <div className="grid">
-                            <InputField type="text" name="corporate_name" label="Company Registration Name" required />
-                            <InputField type="text" name="corporate_number" label="Company Registration Number" required />
-                            <InputField type="text" name="business_name" label="Trading as/ Business Name" required />
-                            <InputField type="text" name="first_name" label="Primary Contact First Name *" required />
-                            <InputField type="text" name="last_name" label="Primary Contact Last Name *" required />
-                            <InputField type="number" name="contact_number" label="Contact Number *" required />
-                            <InputField type="email" name="email" label="Contact Email *" required />
-                            <InputTextArea name="communication_numbers" label="Communication Phone Numbers * Separate By comma (,)" />
-                            <InputTextArea name="communication_emails" label="Communication Emails * Separate By comma (,)" />
-                            <InputTextArea name="physical_address" label="Physical Address *" />
-                            <InputTextArea name="postal_address" label="Postal Address *" />
-                            <InputField type="text" name="city" label="City*" required />
+                            <div className="input-wrapper">
+                                <label>Company Registration Number *</label>
+                                <input
+                                    type="text"
+                                    name="corporate_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Trading as/ Business Name *</label>
+                                <input
+                                    type="text"
+                                    name="business_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Primary Contact First Name *</label>
+                                <input
+                                    type="text"
+                                    name="first_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Primary Contact Last Name *</label>
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Contact Number *</label>
+                                <input
+                                    type="number"
+                                    name="contact_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Contact Email *</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Communication Phone Numbers * Separate By comma (,)</label>
+                                <textarea
+                                    type="text"
+                                    name="communication_numbers"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Communication Emails * Separate By comma (,)</label>
+                                <textarea
+                                    type="text"
+                                    name="communication_emails"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Physical Address  *</label>
+                                <textarea
+                                    type="text"
+                                    name="physical_address"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Postal Address *</label>
+                                <textarea
+                                    type="text"
+                                    name="postal_address"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>City *</label>
+                                <input
+                                    type="text"
+                                    name="city"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
                             <div className="input-wrapper">
                                 <label>Main Bank</label>
                                 <select name="main_bank" onChange={handleChange}>
@@ -190,10 +254,194 @@ const Signup = () => {
                                     ))}
                                 </select>
                             </div>
-                            <InputField type="number" name="account_number" label="Bank Account Number*" required />
-                            <FileInput name="file_1" label="Attachment File 1" />
-                            <FileInput name="file_2" label="Attachment File 2" />
-                            <FileInput name="file_3" label="Attachment File 3" />
+                            <div className="input-wrapper">
+                                <label>Bank Account Number *</label>
+                                <input
+                                    type="number"
+                                    name="account_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Attachment File 1</label>
+                                <input
+                                    type="file"
+                                    name="file_1"
+
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Attachment File 2</label>
+                                <input
+                                    type="file"
+                                    name="file_2"
+
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Attachment File 3</label>
+                                <input
+                                    type="file"
+                                    name="file_3"
+
+                                />
+                            </div>
+                        </div>
+                    </div>
+                );
+            case 'NGO':
+                return (
+                    <div className="form-group">
+                        <div className="grid">
+
+                            <div className="input-wrapper">
+                                <label>Company Registration Name *</label>
+                                <input
+                                    type="text"
+                                    name="corporate_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Company Registration Number *</label>
+                                <input
+                                    type="text"
+                                    name="corporate_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Trading as/ Business Name *</label>
+                                <input
+                                    type="text"
+                                    name="business_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Primary Contact First Name *</label>
+                                <input
+                                    type="text"
+                                    name="first_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Primary Contact Last Name *</label>
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Contact Number *</label>
+                                <input
+                                    type="number"
+                                    name="contact_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Contact Email *</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Communication Phone Numbers * Separate By comma (,)</label>
+                                <textarea
+                                    type="text"
+                                    name="communication_numbers"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Communication Emails * Separate By comma (,)</label>
+                                <textarea
+                                    type="text"
+                                    name="communication_emails"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Physical Address  *</label>
+                                <textarea
+                                    type="text"
+                                    name="physical_address"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Postal Address *</label>
+                                <textarea
+                                    type="text"
+                                    name="postal_address"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>City *</label>
+                                <input
+                                    type="text"
+                                    name="city"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Main Bank</label>
+                                <select name="main_bank" onChange={handleChange}>
+                                    <option value="">Select Bank</option>
+                                    {data.banks.map((bank) => (
+                                        <option key={bank.bank_id} value={bank.bank_id}>{bank.bank_name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Bank Account Number *</label>
+                                <input
+                                    type="number"
+                                    name="account_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Attachment File 1</label>
+                                <input
+                                    type="file"
+                                    name="file_1"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Attachment File 2</label>
+                                <input
+                                    type="file"
+                                    name="file_2"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Attachment File 3</label>
+                                <input
+                                    type="file"
+                                    name="file_3"
+                                />
+                            </div>
                         </div>
                     </div>
                 );
@@ -240,16 +488,97 @@ const Signup = () => {
                                     ))}
                                 </select>
                             </div>
-                            <InputField type="text" name="project_name" label="Project Name" required />
-                            <InputField type="text" name="first_name" label="Primary Contact First Name *" required />
-                            <InputField type="text" name="last_name" label="Primary Contact Last Name *" required />
-                            <InputField type="number" name="contact_number" label="Contact Number *" required />
-                            <InputField type="email" name="email" label="Contact Email *" required />
-                            <InputTextArea name="communication_numbers" label="Communication Phone Numbers * Separate By comma (,)" />
-                            <InputTextArea name="communication_emails" label="Communication Emails * Separate By comma (,)" />
-                            <InputTextArea name="physical_address" label="Physical Address *" />
-                            <InputTextArea name="postal_address" label="Postal Address *" />
-                            <InputField type="text" name="city" label="City*" required />
+
+                            <div className="input-wrapper">
+                                <label>Project Name *</label>
+                                <input
+                                    type="text"
+                                    name="project_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Primary Contact First Name *</label>
+                                <input
+                                    type="text"
+                                    name="first_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Primary Contact Last Name *</label>
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Contact Number *</label>
+                                <input
+                                    type="number"
+                                    name="contact_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Contact Email *</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Communication Phone Numbers * Separate By comma (,)</label>
+                                <textarea
+                                    type="text"
+                                    name="communication_numbers"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Communication Emails * Separate By comma (,)</label>
+                                <textarea
+                                    type="text"
+                                    name="communication_emails"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Physical Address  *</label>
+                                <textarea
+                                    type="text"
+                                    name="physical_address"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>Postal Address *</label>
+                                <textarea
+                                    type="text"
+                                    name="postal_address"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
+                            <div className="input-wrapper">
+                                <label>City *</label>
+                                <input
+                                    type="text"
+                                    name="city"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
                             <div className="input-wrapper">
                                 <label>Main Bank</label>
                                 <select name="main_bank" onChange={handleChange}>
@@ -259,8 +588,15 @@ const Signup = () => {
                                     ))}
                                 </select>
                             </div>
-                            <InputField type="number" name="account_number" label="Bank Account Number*" required />
-                            <InputField type="text" name="action" label="Action*" value="all" required />
+                            <div className="input-wrapper">
+                                <label>Bank Account Number *</label>
+                                <input
+                                    type="number"
+                                    name="account_number"
+                                    onChange={handleChange}
+                                    required="required"
+                                />
+                            </div>
                         </div>
                     </div>
                 );

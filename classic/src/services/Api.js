@@ -1,8 +1,9 @@
 const BASE_URL = "http://api.classicgreencard.com";
 
+
 export const getData = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/classigreenwebregistration?action=all`);
+        const response = await fetch(`${BASE_URL}/classigreenwebregistration?action=All`);
 
         // Check for response status
         if (!response.ok) {
@@ -29,35 +30,36 @@ export const getData = async () => {
 
 export const postData = async (data, category) => {
     try {
-        // Encode the category for safe transmission in the URL
-        const encodedCategory = encodeURIComponent(category);
-
-        // Define the request payload
-        const requestBody = {
-            data: data,  // Send the data in the body
-        };
-
-        // Perform the POST request
-        const response = await fetch(`${BASE_URL}/classigreenwebregistration?action=${encodedCategory}`, {
-            method: 'POST',  // Use POST method
-            headers: {
-                'Content-Type': 'application/json',  // Set content type to JSON
-            },
-            body: JSON.stringify(requestBody),  // Send data as JSON in the body
-        });
-
-        // Check if response is successful
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        if (!data || Object.keys(data).length === 0) {
+            throw new Error('Data cannot be empty');
         }
 
-        // Parse and return the JSON response
+        const encodedCategory = encodeURIComponent(category);
+        const requestBody = { data: data };
+
+        const requestUrl = `${BASE_URL}/classigreenwebregistration?action=${encodedCategory}`;
+        console.log('Requesting URL:', requestUrl); // Debugging log
+
+        const response = await fetch(requestUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text(); // Get more details
+            console.error(`Error response from ${requestUrl}:`, errorText);
+            throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
+        }
+
         const responseData = await response.json();
         return responseData.results;
     } catch (error) {
-        // Log the error for debugging purposes
         console.error(`Failed to post data "${JSON.stringify(data)}" with category "${category}":`, error);
-        return [];  // Return an empty array in case of an error
+        return []; // Return empty array for error handling
     }
 };
+
 

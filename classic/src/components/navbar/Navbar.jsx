@@ -1,5 +1,5 @@
 import './Navbar.css';
-import logo from '../../assets/logoclassic.jpg';
+import logo from '../../assets/logo-nbm.png';
 import { useEffect, useState } from 'react';
 import { Link as ScrollLink, animateScroll as scroll, scrollSpy } from 'react-scroll';
 import menu from '../../assets/menu.png';
@@ -80,7 +80,7 @@ const Navbar = () => {
                     <ScrollLink
                         to='about'
                         smooth={true}
-                        offset={0}
+                        offset={-60}
                         duration={500}
                         activeClass="active"
                         spy={true}

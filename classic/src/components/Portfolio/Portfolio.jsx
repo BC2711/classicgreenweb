@@ -22,11 +22,11 @@ const Portfolio = () => {
       altText: "ClassicGreen Card",
       img: [classic, harvest, pumacard, pumaimg],
     },
-    {
-      category: "fuelManagement",
-      altText: "Fuel Management Solution",
-      img: [], // No images in this category
-    },
+    // {
+    //   category: "fuelManagement",
+    //   altText: "Fuel Management Solution",
+    //   img: [], // No images in this category
+    // },
     {
       category: "expenseManagement",
       altText: "Fuel card and expense management",
@@ -47,7 +47,7 @@ const Portfolio = () => {
       {/* Category Buttons */}
       <div className="portfolio__categories">
         <button className="portfolio__btn" onClick={() => setCurrentCategory("classicgreen")}> Classicgreen Cards </button>
-        <button className="portfolio__btn" onClick={() => setCurrentCategory("fuelManagement")} >Fuel Station </button>
+        {/* <button className="portfolio__btn" onClick={() => setCurrentCategory("fuelManagement")} >Fuel Station </button> */}
         <button className="portfolio__btn" onClick={() => setCurrentCategory("expenseManagement")} >Companies</button>
         {/* <button className="portfolio__btn" onClick={() => setCurrentCategory("all")}> All </button> */}
       </div>
@@ -65,9 +65,7 @@ const Portfolio = () => {
                   <Portfoliocard key={imgIndex} point={img} />
                 ))
               ) : (
-                <p className="portfolio__no-images">
-                  No Data available for this category.
-                </p>
+              ''
               )}
             </div>
           </div>
