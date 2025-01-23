@@ -22,7 +22,7 @@ const faqData = [
 
 const Faq = () => {
   return (
-    <section className="faq container">
+    <section className="faq container" id='faq'>
       <h1 className="faq-heading">Frequently Asked Questions</h1>
       <FaqAccordion faqItems={faqData} />
     </section>

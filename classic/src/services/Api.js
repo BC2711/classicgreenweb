@@ -48,7 +48,7 @@ export const postData = async (data, category) => {
             body: JSON.stringify(requestBody),
         });
 
-        if (!response.ok) {
+        if (!response.result) {
             const errorText = await response.text(); // Get more details
             console.error(`Error response from ${requestUrl}:`, errorText);
             throw new Error(`HTTP error: ${response.status} ${response.statusText}`);

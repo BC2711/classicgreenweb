@@ -41,7 +41,7 @@ const Portfolio = () => {
       : slides.filter((slide) => slide.category === currentCategory);
 
   return (
-    <section className="portfolio container">
+    <section className="portfolio container" id="portfolio">
       {/* Portfolio Title */}
       <h1 className="portfolio__title">Portfolio</h1>
       {/* Category Buttons */}

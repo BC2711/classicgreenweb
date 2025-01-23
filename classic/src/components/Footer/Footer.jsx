@@ -1,4 +1,6 @@
+import Signup from '../Signup/Signup';
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -6,7 +8,9 @@ const Footer = () => {
       <p>©{new Date().getFullYear()} Copyright ClassicGreen. All Rights Reserved
         Designed by SPEEDPAY ZAMBIA</p>
       <ul>
-        <li>Terms of Service</li>
+        <li>
+          <Link to="/signup" element={<Signup />}>Terms & Conditions</Link>
+        </li>
         <li>Privacy Policy</li>
       </ul>
     </div>
